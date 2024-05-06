@@ -2,8 +2,8 @@
 title: "677 Final"
 author: "Zengqi Chen"
 date: "2024-05-05"
-#output: html_document
-output: pdf_document
+output: html_document
+#output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -258,4 +258,4 @@ The integration of False Discovery Rates and Empirical Bayes methods into statis
 
 -   **Storey, J.D. (2002).** "A direct approach to false discovery rates."
 
-
+-   **chatgpt. **
