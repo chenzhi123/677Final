@@ -357,14 +357,13 @@ display: none;
 </div>
 
 
-<div id="main-points-of-chapter-15-large-scale-hypothesis-testing-and-fdrs" class="section level1">
-<h1>Main Points of Chapter 15: Large-Scale Hypothesis Testing and
-FDRs</h1>
+<div id="main-points" class="section level1">
+<h1>Main Points</h1>
 <p>Chapter 15 of “Computer Age Statistical Inference” by Bradley Efron
-and Trevor Hastie delves into the advanced topics of large-scale
-hypothesis testing and the control of false discovery rates (FDRs),
-which are particularly pertinent in the era of big data. This chapter is
-crucial for understanding the statistical tools needed to handle complex
+and Trevor Hastie talks about the topics of large-scale hypothesis
+testing and the control of false discovery rates (FDRs), which are
+particularly pertinent in the era of big data. This chapter is crucial
+for understanding the statistical tools needed to handle complex
 datasets where multiple hypotheses are tested simultaneously.</p>
 <div id="large-scale-hypothesis-testing" class="section level2">
 <h2>Large-Scale Hypothesis Testing</h2>
@@ -377,11 +376,10 @@ positive) in a single test, do not scale well when thousands or even
 millions of tests are conducted because they lead to a high overall
 chance of making one or more false discoveries.</p>
 <p>Efron and Hastie discuss the adjustment of these methods to handle
-multiple comparisons without inflating the overall error rate. The
-authors describe the application of techniques such as the Bonferroni
-correction and its more sophisticated alternatives, which adjust the
-threshold for statistical significance according to the number of tests
-performed.</p>
+multiple comparisons without inflating the overall error rate. They
+describe the application of techniques such as the Bonferroni correction
+and its more sophisticated alternatives, which adjust the threshold for
+statistical significance according to the number of tests performed.</p>
 </div>
 <div id="false-discovery-rates-fdrs" class="section level2">
 <h2>False Discovery Rates (FDRs)</h2>
@@ -423,24 +421,10 @@ distribution. This selection is fundamental in calculating both FDR and
 local FDRs. The authors discuss various strategies to estimate this
 distribution from the data, which is often a critical step in ensuring
 the robustness of hypothesis testing results.</p>
-<p>In summary, Chapter 15 provides a comprehensive treatment of
-techniques needed to address the challenges posed by large-scale
-hypothesis testing. It integrates theoretical insights with practical
-applications, offering readers a deep understanding of both the
-methodologies and their implications in contemporary statistical
-practice. This chapter is essential for statisticians and data
-scientists who deal with the analysis of large-scale data sets where
-multiple hypothesis testing is unavoidable.</p>
 </div>
 </div>
-<div id="computational-methods-and-r-code-examples-for-chapter-15" class="section level1">
-<h1>Computational Methods and R Code Examples for Chapter 15</h1>
-<p>In Chapter 15 of “Computer Age Statistical Inference,” Efron and
-Hastie delve into computational methods vital for understanding and
-implementing large-scale hypothesis testing and controlling false
-discovery rates (FDR). This section explains these methods and includes
-relevant R code examples to demonstrate the application of these
-techniques in practice.</p>
+<div id="computational-methods" class="section level1">
+<h1>Computational Methods</h1>
 <div id="estimating-false-discovery-rates-fdr" class="section level2">
 <h2>Estimating False Discovery Rates (FDR)</h2>
 <p>One of the primary computational challenges in large-scale testing is
@@ -487,6 +471,50 @@ adjusted_p_values &lt;= alpha</code></pre>
 ##  [85] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
 ##  [97] FALSE FALSE FALSE FALSE</code></pre>
 </div>
+<div id="visualizing-fdr-and-p-values" class="section level2">
+<h2>Visualizing FDR and p-values</h2>
+<pre class="r"><code>set.seed(123)
+p_values &lt;- c(runif(100, min = 0, max = 0.05), runif(100, min = 0.95, max = 1))
+
+# Apply FDR correction
+adjusted_p_values &lt;- p.adjust(p_values, method = &quot;fdr&quot;)
+
+# Plotting
+plot(p_values, adjusted_p_values, pch = 19, col = ifelse(adjusted_p_values &lt;= 0.05, &quot;red&quot;, &quot;black&quot;),
+     xlab = &quot;Original p-values&quot;, ylab = &quot;Adjusted p-values&quot;)
+abline(h = 0.05, col = &quot;blue&quot;, lwd = 2)
+legend(&quot;bottomright&quot;, legend = c(&quot;Significant&quot;, &quot;Not significant&quot;), pch = 19, col = c(&quot;red&quot;, &quot;black&quot;))</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAPACAMAAADDuCPrAAAA51BMVEUAAAAAADoAAGYAAP8AOjoAOmYAOpAAZpAAZrY6AAA6OgA6Ojo6OmY6ZmY6ZpA6ZrY6kJA6kLY6kNtmAABmADpmOgBmOjpmZjpmZmZmZpBmkLZmkNtmtrZmtttmtv+QOgCQZgCQZjqQZmaQkDqQkGaQkJCQkLaQtraQttuQtv+Q2/+2ZgC2Zjq2kDq2kGa2kJC2kLa2tma2tpC2tra2ttu225C227a229u22/+2///bkDrbkGbbtmbbtpDbtrbb25Db27bb29vb2//b/7bb////AAD/tmb/25D/27b/29v//7b//9v///+Kus85AAAACXBIWXMAAB2HAAAdhwGP5fFlAAAgAElEQVR4nO3de2PTWJ6gYZsFlgAFM2GgU5kFhtqZhq3Q7C6pWag0YZJqKiTY3//zrGTJthxfsH4+kSzzPH9UhVxki9gvuhwd9YYAhPTafgIAXSWgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQJKAAQQIKECSgAEECChAkoABBAgoQ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" width="672" /></p>
+</div>
+<div id="simulating-data-to-study-fdr" class="section level2">
+<h2>Simulating Data to Study FDR</h2>
+<pre class="r"><code># Simulate some data where some hypotheses are true
+true_effects &lt;- rnorm(50, mean = 3, sd = 1)
+null_effects &lt;- rnorm(950, mean = 0, sd = 1)
+effects &lt;- c(true_effects, null_effects)
+p_values &lt;- pnorm(abs(effects), lower.tail = FALSE) * 2  # Two-tailed test
+
+# Apply FDR correction
+adjusted_p_values &lt;- p.adjust(p_values, method = &quot;fdr&quot;)
+
+# Determine which hypotheses to reject
+significant_results &lt;- adjusted_p_values &lt;= 0.05
+cat(&quot;Number of significant results:&quot;, sum(significant_results), &quot;\n&quot;)</code></pre>
+<pre><code>## Number of significant results: 12</code></pre>
+</div>
+<div id="comparison-of-different-fdr-methods" class="section level2">
+<h2>Comparison of Different FDR Methods</h2>
+<pre class="r"><code># Comparing different methods
+methods &lt;- c(&quot;holm&quot;, &quot;hochberg&quot;, &quot;hommel&quot;, &quot;bonferroni&quot;, &quot;BH&quot;, &quot;BY&quot;, &quot;fdr&quot;, &quot;none&quot;)
+sapply(methods, function(m) {
+    adj_p &lt;- p.adjust(p_values, method = m)
+    sum(adj_p &lt;= 0.05)
+})</code></pre>
+<pre><code>##       holm   hochberg     hommel bonferroni         BH         BY        fdr 
+##          5          5          5          5         12          4         12 
+##       none 
+##         91</code></pre>
+</div>
 <div id="empirical-bayes-for-large-scale-testing" class="section level2">
 <h2>Empirical Bayes for Large-Scale Testing</h2>
 <p>Empirical Bayes methods are extensively used for estimating
@@ -500,8 +528,8 @@ uniform. However, deviations from this uniform distribution in observed
 p-values can indicate the presence of true effects. Empirical Bayes
 methods adjust for such deviations by estimating the prior distribution
 of the test statistics.</p>
-<p>Here is an example using the <code>locfdr</code> package in R, which
-computes local FDR values:</p>
+<p>using the <code>locfdr</code> package to computes local FDR
+values:</p>
 <pre class="r"><code>library(locfdr)
 
 
@@ -528,22 +556,10 @@ are interpreted.</p>
 broad, then even significant deviations might be considered as noise,
 leading to a high number of false negatives. On the other hand, a
 too-narrow null distribution might lead to too many false positives.</p>
-<p>In summary, the computational methods discussed in Chapter 15 are
-essential for effective large-scale hypothesis testing. These methods
-leverage modern statistical software capabilities, allowing researchers
-to handle large datasets and perform multiple hypothesis tests with
-confidence in the integrity of their findings.</p>
 </div>
 </div>
-<div id="mathematical-underpinnings-of-chapter-15-large-scale-hypothesis-testing-and-fdrs" class="section level1">
-<h1>Mathematical Underpinnings of Chapter 15: Large-Scale Hypothesis
-Testing and FDRs</h1>
-<p>In Chapter 15 of “Computer Age Statistical Inference,” the
-mathematical foundation focuses on the probabilistic frameworks and
-statistical theories underlying large-scale hypothesis testing and the
-control of False Discovery Rates (FDRs). This section discusses the
-mathematical concepts and derivations that are essential for
-understanding these statistical methodologies.</p>
+<div id="mathematical-foundation" class="section level1">
+<h1>Mathematical foundation</h1>
 <div id="probability-framework-for-multiple-testing" class="section level2">
 <h2>Probability Framework for Multiple Testing</h2>
 <p>Large-scale hypothesis testing involves handling multiple hypotheses
@@ -609,134 +625,144 @@ mean difference), while the alternative suggests some non-zero effect.
 The distributions of test statistics under both hypotheses need to be
 well approximated to accurately compute p-values and, subsequently,
 FDRs.</p>
-<div id="summary" class="section level3">
-<h3>Summary</h3>
-<p>The mathematical underpinnings of Chapter 15 provide a robust
-framework for understanding the complexities of large-scale hypothesis
-testing. The transition from simple Bonferroni corrections to more
-nuanced techniques like FDR and empirical Bayes methods reflects a
-sophisticated evolution in statistical thinking, crucial for dealing
-with modern scientific data analysis challenges. These methodologies not
-only offer more power and flexibility but also ensure that statistical
-inference remains reliable even when faced with vast datasets.</p>
-</div>
 </div>
 </div>
 <div id="historical-context-of-chapter-15-large-scale-hypothesis-testing-and-fdrs" class="section level1">
 <h1>Historical Context of Chapter 15: Large-Scale Hypothesis Testing and
 FDRs</h1>
-<p>Chapter 15 of “Computer Age Statistical Inference” covers important
-developments in the statistical field, particularly focusing on
-large-scale hypothesis testing and the introduction of false discovery
-rates (FDR). This section explores the historical context of these
-concepts, tracing their evolution and the pivotal moments that shaped
-modern statistical practices in handling multiple comparisons.</p>
-<div id="early-developments-in-multiple-testing" class="section level2">
-<h2>Early Developments in Multiple Testing</h2>
-<p>The challenge of multiple testing has its roots in early 20th-century
-statistics, where the need to control errors across multiple hypothesis
-tests first emerged. Initially, the focus was primarily on controlling
-the family-wise error rate (FWER), which ensures that the probability of
-making one or more Type I errors does not exceed a pre-set level across
-all tests.</p>
-<p>The simplest approach to control FWER is the Bonferroni correction,
-derived from Boole’s inequality, which was widely used due to its
-simplicity and stringent control over Type I errors:</p>
-<p><span class="math display">\[ \text{FWER} \leq \sum_{i=1}^m
-P(\text{Type I error for test } i) \]</span></p>
-<p>However, as the number of tests increased with advances in data
-collection and generation, the Bonferroni correction became
-impractically conservative, leading to a high rate of Type II errors
-(false negatives).</p>
+<p>The historical evolution of methods discussed in this Chapter
+primarily revolves around addressing the challenges posed by large-scale
+hypothesis testing. This context sets the stage for understanding the
+significant shifts in statistical practices driven by the need to
+control errors in multiple testing scenarios, particularly as datasets
+grew in size and complexity.</p>
+<div id="evolution-of-multiple-testing" class="section level2">
+<h2>Evolution of Multiple Testing</h2>
+<div id="early-20th-century" class="section level3">
+<h3>Early 20th Century</h3>
+<p>The statistical community initially tackled multiple testing issues
+as isolated statistical anomalies, primarily through individual
+hypothesis tests. As scientific experiments grew in complexity,
+especially with advancements in biotechnology and social sciences, the
+need to address multiple hypotheses simultaneously became evident.</p>
 </div>
-<div id="the-introduction-of-false-discovery-rates" class="section level2">
-<h2>The Introduction of False Discovery Rates</h2>
-<p>The concept of False Discovery Rate (FDR) was introduced by Yoav
-Benjamini and Yosef Hochberg in their seminal 1995 paper. They proposed
-a less conservative approach that directly addressed the challenges
-posed by modern large-scale testing environments. FDR is defined as the
-expected proportion of false positives among the rejected hypotheses,
-fundamentally changing how multiple comparisons are handled.</p>
-<p>The original FDR controlling procedure, now known as the
-Benjamini-Hochberg (BH) procedure, was a landmark in statistical
-methodology because it allowed researchers to handle the multiplicity of
-tests without severely compromising power. The BH procedure orders
-p-values and finds the largest number, k, such that:</p>
-<p><span class="math display">\[ P_k \leq \frac{k}{m} \alpha
-\]</span></p>
-<p>This procedure was a significant shift from controlling the
-probability of any false positives (FWER) to controlling the expected
-proportion of false positives (FDR).</p>
+<div id="mid-20th-century" class="section level3">
+<h3>Mid 20th Century</h3>
+<p>The introduction of the family-wise error rate (FWER) marked a
+foundational approach to controlling Type I errors across multiple
+hypothesis tests. Techniques like the Bonferroni correction, derived
+from Boole’s inequality, provided a stringent but overly conservative
+method for ensuring that the probability of making even one Type I error
+was controlled. This method was practical for a small number of tests
+but quickly became inadequate as the number of hypotheses grew,
+particularly highlighted by the explosion of data in genetics and other
+fields.</p>
 </div>
-<div id="empirical-bayes-and-modern-developments" class="section level2">
-<h2>Empirical Bayes and Modern Developments</h2>
-<p>Another major development discussed in Chapter 15 is the application
-of Empirical Bayes methods in large-scale testing. These methods, which
-estimate the distribution of test statistics under the null hypothesis
-using observed data, represent a fusion of classical and Bayesian
-statistics. The introduction of local FDRs, which assess the probability
-that a specific null hypothesis is true given the observed test
-statistic, further refined the resolution of statistical tests:</p>
-<p><span class="math display">\[ \text{local FDR}(t) = \Pr(\text{Null}
-\mid T = t) \]</span></p>
-<p>Empirical Bayes methods provide a more nuanced approach to handling
-large datasets, where the assumptions of traditional methods often do
-not hold.</p>
 </div>
-<div id="summary-1" class="section level2">
-<h2>Summary</h2>
-<p>The historical context of the methodologies discussed in Chapter 15
-illustrates a significant evolution in the field of statistics. From the
-conservative Bonferroni correction to the more nuanced and powerful FDR
-and Empirical Bayes methods, statistical practice has adapted to the
-increasing complexity and scale of data in modern research. These
-developments reflect a broader trend in statistics towards more adaptive
-and data-driven methodologies, enabling researchers to make more
-informed decisions in the face of uncertainty.</p>
+<div id="pivotal-developments" class="section level2">
+<h2>Pivotal Developments</h2>
+<div id="late-20th-century" class="section level3">
+<h3>Late 20th Century</h3>
+<p>The seminal work by Yoav Benjamini and Yosef Hochberg in 1995
+introduced the concept of the False Discovery Rate (FDR), which was a
+critical turning point. They proposed a less conservative, more powerful
+method that was better suited for the burgeoning field of genomics,
+where researchers dealt with thousands of tests simultaneously. The FDR
+was designed to control the expected proportion of false discoveries,
+thereby providing a more balanced approach to Type I error control.</p>
+<p>Their method, now known as the Benjamini-Hochberg procedure, was
+revolutionary because it allowed scientists to make discoveries at a
+faster pace without increasing the risk of false findings
+disproportionately. This method quickly became a staple in statistical
+analyses across multiple disciplines, from genomics to machine
+learning.</p>
+</div>
+</div>
+<div id="integration-of-bayesian-approaches" class="section level2">
+<h2>Integration of Bayesian Approaches</h2>
+<div id="early-21st-century" class="section level3">
+<h3>Early 21st Century</h3>
+<p>The integration of Bayesian statistics through Empirical Bayes
+methods further refined the approach to multiple testing. These methods
+allowed for the estimation of parameters from the data itself, enhancing
+the adaptability and accuracy of FDR calculations. The concept of local
+FDRs, which provided the probability that a specific hypothesis was null
+given the observed data, offered even finer resolution in hypothesis
+testing.</p>
+</div>
 </div>
 </div>
 <div id="statistical-practice-implications-of-chapter-15-large-scale-hypothesis-testing-and-fdrs" class="section level1">
 <h1>Statistical Practice Implications of Chapter 15: Large-Scale
 Hypothesis Testing and FDRs</h1>
-<p>Chapter 15 of “Computer Age Statistical Inference” significantly
-influences statistical practice by introducing and elaborating on
-methodologies for large-scale hypothesis testing and False Discovery
-Rates (FDR). The broader implications for statistical practice involve
-not only the adoption of these methods across various scientific
-disciplines but also a paradigm shift in how data analysis is approached
-in the context of multiple comparisons.</p>
-<div id="enhanced-accuracy-and-power-in-hypothesis-testing" class="section level2">
-<h2>Enhanced Accuracy and Power in Hypothesis Testing</h2>
-<p>The shift from traditional methods such as the Bonferroni correction
-to more sophisticated techniques like the FDR and local FDR allows
-statisticians to achieve a balance between minimizing Type I errors
-(false positives) and maximizing the test’s power. This balance is
-crucial for scientific fields where making correct decisions based on
-hypothesis testing can have significant implications, such as in medical
-research and policy making.</p>
+<p>This Chapter introduces advanced statistical methods tailored for the
+analysis of large-scale data, emphasizing the practical implications of
+False Discovery Rates (FDR) and Empirical Bayes methods in hypothesis
+testing. These methods address the critical challenges in modern
+statistical practices, especially in areas dealing with voluminous data
+and multiple comparisons.</p>
+<div id="enhancing-decision-making-in-complex-datasets" class="section level2">
+<h2>Enhancing Decision-Making in Complex Datasets</h2>
+<p>The adoption of FDR methods allows statisticians to navigate the
+complex waters of large datasets more effectively. By focusing on the
+proportion of false discoveries rather than the traditional family-wise
+error rate (FWER), researchers can make more informed decisions without
+being overly conservative, which is particularly crucial in fields like
+genomic research and big data analytics where decisions directly impact
+further research directions and funding.</p>
 </div>
-<div id="data-driven-adaptive-methods" class="section level2">
-<h2>Data-Driven Adaptive Methods</h2>
-<p>The introduction of Empirical Bayes and FDR-based methods has ushered
-in more adaptive and data-driven approaches. These methods leverage the
-data itself to inform decisions about which hypotheses to reject,
-allowing for more flexible responses to the data’s inherent
-characteristics. This adaptability is especially beneficial in
-high-dimensional data environments, such as genomics and large-scale
-social sciences experiments, where the relationships between variables
-can be complex and not well-suited to traditional fixed threshold
-methods.</p>
+<div id="data-driven-insights-and-model-refinement" class="section level2">
+<h2>Data-Driven Insights and Model Refinement</h2>
+<p>Empirical Bayes methods bring a data-driven approach to statistical
+inference, allowing more nuanced insights and model refinement. By
+estimating parameters directly from the data rather than relying on
+strict assumptions or fixed thresholds, these methods provide a flexible
+framework that adapts to the underlying data structure. This
+adaptability is invaluable for sectors like finance and healthcare,
+where predictive accuracy and response to changing patterns can
+significantly influence outcomes.</p>
 </div>
-<div id="expansion-of-statistical-methodology-applications" class="section level2">
-<h2>Expansion of Statistical Methodology Applications</h2>
-<p>The methodologies discussed in Chapter 15 have enabled statistical
-analyses that were previously not possible due to the limitations of
-earlier techniques. Researchers can now undertake more ambitious
-projects, such as large-scale A/B testing in tech industries,
-genome-wide association studies in genetics, and real-time fraud
-detection in finance, all of which rely heavily on the ability to make
-accurate inferences when testing thousands or millions of
-hypotheses.</p>
+<div id="implications-for-research-and-development" class="section level2">
+<h2>Implications for Research and Development</h2>
+<ul>
+<li><p><strong>Genomics</strong>: Efficient handling of multiple
+hypothesis tests enables more accurate identification of genetic markers
+linked to diseases.</p></li>
+<li><p><strong>Drug Development</strong>: Improved statistical methods
+enhance the reliability of clinical trial results, influencing
+decision-making in pipeline development.</p></li>
+<li><p><strong>Technology and E-commerce</strong>: Large-scale A/B
+testing frameworks benefit from refined FDR controls, optimizing user
+experience and product features based on robust statistical
+analysis.</p></li>
+</ul>
+</div>
+<div id="challenges-and-considerations" class="section level2">
+<h2>Challenges and Considerations</h2>
+<p>While the advancements in statistical methodologies provide powerful
+tools for handling complex datasets, they also introduce challenges:</p>
+<ul>
+<li><p><strong>Skill Gap</strong>: There is a growing need for training
+and knowledge dissemination to ensure that practitioners can effectively
+apply these advanced methods.</p></li>
+<li><p><strong>Computational Demand</strong>: Implementing these methods
+requires substantial computational resources, especially in real-time
+data analysis scenarios.</p></li>
+<li><p><strong>Ethical Considerations</strong>: The decision thresholds
+set by FDR and Empirical Bayes methods can have significant
+implications, particularly in sensitive areas such as personalized
+medicine and criminal justice.</p></li>
+</ul>
+</div>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<p>The integration of False Discovery Rates and Empirical Bayes methods
+into statistical practice marks a significant evolution in the field.
+These methods not only enhance the precision and reliability of
+hypothesis testing in large-scale studies but also push the boundaries
+of what can be achieved with modern data analysis. As datasets continue
+to grow in size and complexity, the importance of these methodologies
+will only increase, underscoring their role as essential tools.</p>
 </div>
 </div>
 <div id="references" class="section level1">
@@ -749,9 +775,6 @@ to Multiple Testing.”</p></li>
 Age Statistical Inference.”</p></li>
 <li><p><strong>Storey, J.D. (2002).</strong> “A direct approach to false
 discovery rates.”</p></li>
-<li><p><strong>Tusher, V.G., Tibshirani, R., &amp; Chu, G.
-(2001).</strong> “Significance analysis of microarrays applied to the
-ionizing radiation response.”</p></li>
 </ul>
 </div>
 

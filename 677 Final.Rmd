@@ -2,8 +2,8 @@
 title: "677 Final"
 author: "Zengqi Chen"
 date: "2024-05-05"
-output: html_document
-#output: pdf_document
+#output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -14,15 +14,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Main Points of Chapter 15: Large-Scale Hypothesis Testing and FDRs
+# Main Points 
 
-Chapter 15 of "Computer Age Statistical Inference" by Bradley Efron and Trevor Hastie delves into the advanced topics of large-scale hypothesis testing and the control of false discovery rates (FDRs), which are particularly pertinent in the era of big data. This chapter is crucial for understanding the statistical tools needed to handle complex datasets where multiple hypotheses are tested simultaneously.
+Chapter 15 of "Computer Age Statistical Inference" by Bradley Efron and Trevor Hastie talks about the topics of large-scale hypothesis testing and the control of false discovery rates (FDRs), which are particularly pertinent in the era of big data. This chapter is crucial for understanding the statistical tools needed to handle complex datasets where multiple hypotheses are tested simultaneously.
 
 ## Large-Scale Hypothesis Testing
 
 In the context of modern statistical analysis, particularly in fields like genomics, neuroimaging, and other areas where large datasets are common, the need to perform multiple hypothesis tests simultaneously is a significant challenge. The traditional methods of hypothesis testing, which control for the probability of making a Type I error (false positive) in a single test, do not scale well when thousands or even millions of tests are conducted because they lead to a high overall chance of making one or more false discoveries.
 
-Efron and Hastie discuss the adjustment of these methods to handle multiple comparisons without inflating the overall error rate. The authors describe the application of techniques such as the Bonferroni correction and its more sophisticated alternatives, which adjust the threshold for statistical significance according to the number of tests performed.
+Efron and Hastie discuss the adjustment of these methods to handle multiple comparisons without inflating the overall error rate. They describe the application of techniques such as the Bonferroni correction and its more sophisticated alternatives, which adjust the threshold for statistical significance according to the number of tests performed.
 
 ## False Discovery Rates (FDRs)
 
@@ -40,11 +40,9 @@ While FDR gives an overall measure of error among multiple tests, local false di
 
 A crucial aspect discussed is the selection of an appropriate null distribution. This selection is fundamental in calculating both FDR and local FDRs. The authors discuss various strategies to estimate this distribution from the data, which is often a critical step in ensuring the robustness of hypothesis testing results.
 
-In summary, Chapter 15 provides a comprehensive treatment of techniques needed to address the challenges posed by large-scale hypothesis testing. It integrates theoretical insights with practical applications, offering readers a deep understanding of both the methodologies and their implications in contemporary statistical practice. This chapter is essential for statisticians and data scientists who deal with the analysis of large-scale data sets where multiple hypothesis testing is unavoidable.
 
-# Computational Methods and R Code Examples for Chapter 15
+# Computational Methods 
 
-In Chapter 15 of "Computer Age Statistical Inference," Efron and Hastie delve into computational methods vital for understanding and implementing large-scale hypothesis testing and controlling false discovery rates (FDR). This section explains these methods and includes relevant R code examples to demonstrate the application of these techniques in practice.
 
 ## Estimating False Discovery Rates (FDR)
 
@@ -75,13 +73,60 @@ adjusted_p_values <= alpha
 
 ```
 
+## Visualizing FDR and p-values
+
+```{r}
+
+set.seed(123)
+p_values <- c(runif(100, min = 0, max = 0.05), runif(100, min = 0.95, max = 1))
+
+# Apply FDR correction
+adjusted_p_values <- p.adjust(p_values, method = "fdr")
+
+# Plotting
+plot(p_values, adjusted_p_values, pch = 19, col = ifelse(adjusted_p_values <= 0.05, "red", "black"),
+     xlab = "Original p-values", ylab = "Adjusted p-values")
+abline(h = 0.05, col = "blue", lwd = 2)
+legend("bottomright", legend = c("Significant", "Not significant"), pch = 19, col = c("red", "black"))
+
+```
+
+## Simulating Data to Study FDR
+
+```{r}
+# Simulate some data where some hypotheses are true
+true_effects <- rnorm(50, mean = 3, sd = 1)
+null_effects <- rnorm(950, mean = 0, sd = 1)
+effects <- c(true_effects, null_effects)
+p_values <- pnorm(abs(effects), lower.tail = FALSE) * 2  # Two-tailed test
+
+# Apply FDR correction
+adjusted_p_values <- p.adjust(p_values, method = "fdr")
+
+# Determine which hypotheses to reject
+significant_results <- adjusted_p_values <= 0.05
+cat("Number of significant results:", sum(significant_results), "\n")
+
+```
+
+
+## Comparison of Different FDR Methods
+```{r}
+# Comparing different methods
+methods <- c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")
+sapply(methods, function(m) {
+    adj_p <- p.adjust(p_values, method = m)
+    sum(adj_p <= 0.05)
+})
+```
+
 ## Empirical Bayes for Large-Scale Testing
 
 Empirical Bayes methods are extensively used for estimating parameters that are subsequently used in FDR calculations. These methods involve estimating the distribution of the test statistics under the null hypothesis and combining this with the prior distribution of the parameters.
 
 The key computational aspect here involves modeling the distribution of p-values under the null hypothesis, which is often assumed to be uniform. However, deviations from this uniform distribution in observed p-values can indicate the presence of true effects. Empirical Bayes methods adjust for such deviations by estimating the prior distribution of the test statistics.
 
-Here is an example using the `locfdr` package in R, which computes local FDR values:
+using the `locfdr` package to computes local FDR values:
 
 ```{r}
 
@@ -106,11 +151,8 @@ Selecting an appropriate null distribution is crucial for accurately computing F
 
 For example, if the null distribution is incorrectly specified as too broad, then even significant deviations might be considered as noise, leading to a high number of false negatives. On the other hand, a too-narrow null distribution might lead to too many false positives.
 
-In summary, the computational methods discussed in Chapter 15 are essential for effective large-scale hypothesis testing. These methods leverage modern statistical software capabilities, allowing researchers to handle large datasets and perform multiple hypothesis tests with confidence in the integrity of their findings.
 
-# Mathematical Underpinnings of Chapter 15: Large-Scale Hypothesis Testing and FDRs
-
-In Chapter 15 of "Computer Age Statistical Inference," the mathematical foundation focuses on the probabilistic frameworks and statistical theories underlying large-scale hypothesis testing and the control of False Discovery Rates (FDRs). This section discusses the mathematical concepts and derivations that are essential for understanding these statistical methodologies.
+# Mathematical foundation 
 
 ## Probability Framework for Multiple Testing
 
@@ -150,61 +192,63 @@ This is typically estimated using the ratio of the density of the test statistic
 
 The accurate modeling of the null and alternative hypotheses is critical. The null hypothesis typically assumes no effect (e.g., zero mean difference), while the alternative suggests some non-zero effect. The distributions of test statistics under both hypotheses need to be well approximated to accurately compute p-values and, subsequently, FDRs.
 
-### Summary
-
-The mathematical underpinnings of Chapter 15 provide a robust framework for understanding the complexities of large-scale hypothesis testing. The transition from simple Bonferroni corrections to more nuanced techniques like FDR and empirical Bayes methods reflects a sophisticated evolution in statistical thinking, crucial for dealing with modern scientific data analysis challenges. These methodologies not only offer more power and flexibility but also ensure that statistical inference remains reliable even when faced with vast datasets.
 
 # Historical Context of Chapter 15: Large-Scale Hypothesis Testing and FDRs
 
-Chapter 15 of "Computer Age Statistical Inference" covers important developments in the statistical field, particularly focusing on large-scale hypothesis testing and the introduction of false discovery rates (FDR). This section explores the historical context of these concepts, tracing their evolution and the pivotal moments that shaped modern statistical practices in handling multiple comparisons.
+The historical evolution of methods discussed in this Chapter primarily revolves around addressing the challenges posed by large-scale hypothesis testing. This context sets the stage for understanding the significant shifts in statistical practices driven by the need to control errors in multiple testing scenarios, particularly as datasets grew in size and complexity.
 
-## Early Developments in Multiple Testing
+## Evolution of Multiple Testing
 
-The challenge of multiple testing has its roots in early 20th-century statistics, where the need to control errors across multiple hypothesis tests first emerged. Initially, the focus was primarily on controlling the family-wise error rate (FWER), which ensures that the probability of making one or more Type I errors does not exceed a pre-set level across all tests.
+### Early 20th Century
+The statistical community initially tackled multiple testing issues as isolated statistical anomalies, primarily through individual hypothesis tests. As scientific experiments grew in complexity, especially with advancements in biotechnology and social sciences, the need to address multiple hypotheses simultaneously became evident.
 
-The simplest approach to control FWER is the Bonferroni correction, derived from Boole's inequality, which was widely used due to its simplicity and stringent control over Type I errors:
+### Mid 20th Century
+The introduction of the family-wise error rate (FWER) marked a foundational approach to controlling Type I errors across multiple hypothesis tests. Techniques like the Bonferroni correction, derived from Boole’s inequality, provided a stringent but overly conservative method for ensuring that the probability of making even one Type I error was controlled. This method was practical for a small number of tests but quickly became inadequate as the number of hypotheses grew, particularly highlighted by the explosion of data in genetics and other fields.
 
-$$ \text{FWER} \leq \sum_{i=1}^m P(\text{Type I error for test } i) $$
+## Pivotal Developments
 
-However, as the number of tests increased with advances in data collection and generation, the Bonferroni correction became impractically conservative, leading to a high rate of Type II errors (false negatives).
+### Late 20th Century
+The seminal work by Yoav Benjamini and Yosef Hochberg in 1995 introduced the concept of the False Discovery Rate (FDR), which was a critical turning point. They proposed a less conservative, more powerful method that was better suited for the burgeoning field of genomics, where researchers dealt with thousands of tests simultaneously. The FDR was designed to control the expected proportion of false discoveries, thereby providing a more balanced approach to Type I error control.
 
-## The Introduction of False Discovery Rates
+Their method, now known as the Benjamini-Hochberg procedure, was revolutionary because it allowed scientists to make discoveries at a faster pace without increasing the risk of false findings disproportionately. This method quickly became a staple in statistical analyses across multiple disciplines, from genomics to machine learning.
 
-The concept of False Discovery Rate (FDR) was introduced by Yoav Benjamini and Yosef Hochberg in their seminal 1995 paper. They proposed a less conservative approach that directly addressed the challenges posed by modern large-scale testing environments. FDR is defined as the expected proportion of false positives among the rejected hypotheses, fundamentally changing how multiple comparisons are handled.
+## Integration of Bayesian Approaches
 
-The original FDR controlling procedure, now known as the Benjamini-Hochberg (BH) procedure, was a landmark in statistical methodology because it allowed researchers to handle the multiplicity of tests without severely compromising power. The BH procedure orders p-values and finds the largest number, k, such that:
+### Early 21st Century
+The integration of Bayesian statistics through Empirical Bayes methods further refined the approach to multiple testing. These methods allowed for the estimation of parameters from the data itself, enhancing the adaptability and accuracy of FDR calculations. The concept of local FDRs, which provided the probability that a specific hypothesis was null given the observed data, offered even finer resolution in hypothesis testing.
 
-$$ P_k \leq \frac{k}{m} \alpha $$
-
-This procedure was a significant shift from controlling the probability of any false positives (FWER) to controlling the expected proportion of false positives (FDR).
-
-## Empirical Bayes and Modern Developments
-
-Another major development discussed in Chapter 15 is the application of Empirical Bayes methods in large-scale testing. These methods, which estimate the distribution of test statistics under the null hypothesis using observed data, represent a fusion of classical and Bayesian statistics. The introduction of local FDRs, which assess the probability that a specific null hypothesis is true given the observed test statistic, further refined the resolution of statistical tests:
-
-$$ \text{local FDR}(t) = \Pr(\text{Null} \mid T = t) $$
-
-Empirical Bayes methods provide a more nuanced approach to handling large datasets, where the assumptions of traditional methods often do not hold.
-
-## Summary
-
-The historical context of the methodologies discussed in Chapter 15 illustrates a significant evolution in the field of statistics. From the conservative Bonferroni correction to the more nuanced and powerful FDR and Empirical Bayes methods, statistical practice has adapted to the increasing complexity and scale of data in modern research. These developments reflect a broader trend in statistics towards more adaptive and data-driven methodologies, enabling researchers to make more informed decisions in the face of uncertainty.
 
 # Statistical Practice Implications of Chapter 15: Large-Scale Hypothesis Testing and FDRs
 
-Chapter 15 of "Computer Age Statistical Inference" significantly influences statistical practice by introducing and elaborating on methodologies for large-scale hypothesis testing and False Discovery Rates (FDR). The broader implications for statistical practice involve not only the adoption of these methods across various scientific disciplines but also a paradigm shift in how data analysis is approached in the context of multiple comparisons.
+This Chapter introduces advanced statistical methods tailored for the analysis of large-scale data, emphasizing the practical implications of False Discovery Rates (FDR) and Empirical Bayes methods in hypothesis testing. These methods address the critical challenges in modern statistical practices, especially in areas dealing with voluminous data and multiple comparisons. 
 
-## Enhanced Accuracy and Power in Hypothesis Testing
+## Enhancing Decision-Making in Complex Datasets
+The adoption of FDR methods allows statisticians to navigate the complex waters of large datasets more effectively. By focusing on the proportion of false discoveries rather than the traditional family-wise error rate (FWER), researchers can make more informed decisions without being overly conservative, which is particularly crucial in fields like genomic research and big data analytics where decisions directly impact further research directions and funding.
 
-The shift from traditional methods such as the Bonferroni correction to more sophisticated techniques like the FDR and local FDR allows statisticians to achieve a balance between minimizing Type I errors (false positives) and maximizing the test's power. This balance is crucial for scientific fields where making correct decisions based on hypothesis testing can have significant implications, such as in medical research and policy making.
+## Data-Driven Insights and Model Refinement
+Empirical Bayes methods bring a data-driven approach to statistical inference, allowing more nuanced insights and model refinement. By estimating parameters directly from the data rather than relying on strict assumptions or fixed thresholds, these methods provide a flexible framework that adapts to the underlying data structure. This adaptability is invaluable for sectors like finance and healthcare, where predictive accuracy and response to changing patterns can significantly influence outcomes.
 
-## Data-Driven Adaptive Methods
+## Implications for Research and Development
 
-The introduction of Empirical Bayes and FDR-based methods has ushered in more adaptive and data-driven approaches. These methods leverage the data itself to inform decisions about which hypotheses to reject, allowing for more flexible responses to the data's inherent characteristics. This adaptability is especially beneficial in high-dimensional data environments, such as genomics and large-scale social sciences experiments, where the relationships between variables can be complex and not well-suited to traditional fixed threshold methods.
 
-## Expansion of Statistical Methodology Applications
+- **Genomics**: Efficient handling of multiple hypothesis tests enables more accurate identification of genetic markers linked to diseases.
 
-The methodologies discussed in Chapter 15 have enabled statistical analyses that were previously not possible due to the limitations of earlier techniques. Researchers can now undertake more ambitious projects, such as large-scale A/B testing in tech industries, genome-wide association studies in genetics, and real-time fraud detection in finance, all of which rely heavily on the ability to make accurate inferences when testing thousands or millions of hypotheses.
+- **Drug Development**: Improved statistical methods enhance the reliability of clinical trial results, influencing decision-making in pipeline development.
+
+- **Technology and E-commerce**: Large-scale A/B testing frameworks benefit from refined FDR controls, optimizing user experience and product features based on robust statistical analysis.
+
+
+## Challenges and Considerations
+While the advancements in statistical methodologies provide powerful tools for handling complex datasets, they also introduce challenges:
+
+- **Skill Gap**: There is a growing need for training and knowledge dissemination to ensure that practitioners can effectively apply these advanced methods.
+
+- **Computational Demand**: Implementing these methods requires substantial computational resources, especially in real-time data analysis scenarios.
+
+- **Ethical Considerations**: The decision thresholds set by FDR and Empirical Bayes methods can have significant implications, particularly in sensitive areas such as personalized medicine and criminal justice.
+
+## Summary
+The integration of False Discovery Rates and Empirical Bayes methods into statistical practice marks a significant evolution in the field. These methods not only enhance the precision and reliability of hypothesis testing in large-scale studies but also push the boundaries of what can be achieved with modern data analysis. As datasets continue to grow in size and complexity, the importance of these methodologies will only increase, underscoring their role as essential tools.
 
 # References
 
@@ -214,4 +258,4 @@ The methodologies discussed in Chapter 15 have enabled statistical analyses that
 
 -   **Storey, J.D. (2002).** "A direct approach to false discovery rates."
 
--   **Tusher, V.G., Tibshirani, R., & Chu, G. (2001).** "Significance analysis of microarrays applied to the ionizing radiation response."
+
